@@ -1,14 +1,20 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const bcrypt = require('bcrypt');
 
 async function main() {
+
+  // Hash password untuk admin dan user
+  const hashedAdminPassword = await bcrypt.hash('admin123', 10);
+  const hashedUserPassword = await bcrypt.hash('user123', 10);
+
   // Buat admin
   const admin = await prisma.user.create({
     data: {
       profile: 'admin.jpg',
       username: 'Hana Rima',
       email: 'rimaums@gmail.com',
-      password: 'admin123', 
+      password: hashedAdminPassword, 
       role: 'admin',
     },
   });
@@ -19,7 +25,7 @@ async function main() {
       profile: 'user.jpg',
       username: 'Kiki Mahesta',
       email: 'kim@gmail.com',
-      password: 'kiki123',
+      password: hashedUserPassword,
       role: 'user',
     },
   });
