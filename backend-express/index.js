@@ -35,7 +35,9 @@ app.get('/', (req, res) => {
 });
 
 // auth routes
-app.use('/auth', authRoutes); // <-- tambahkan ini
+const routes = require('./routes');
+app.use('/api', routes);
+
 
 // define port
 const port = process.env.PORT || 3000;
