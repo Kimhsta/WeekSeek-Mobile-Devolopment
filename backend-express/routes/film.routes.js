@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const { validationResult } = require('express-validator');
 const { createFilmValidator, updateFilmValidator } = require('../utils/validators/filmValidator');
-const { createFilm, updateFilm } = require('../controllers/filmController');
+const { createFilm, updateFilm, getAllFilms,getFilmById,deleteFilm } = require('../controllers/filmController');
 const { verifyToken, isAdmin } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
@@ -36,6 +36,15 @@ router.post(
   createFilm
 );
 
+// Ambil semua films
+router.get('/', getAllFilms);
+
+//Mengambil berdasarkan ID
+router.get('/:id',getFilmById);
+
+// Hapus
+router.delete('/:id', verifyToken, isAdmin, deleteFilm)
+
 // UPDATE FILM
 router.put(
   '/:id',
@@ -45,5 +54,6 @@ router.put(
   validate(updateFilmValidator),
   updateFilm
 );
+
 
 module.exports = router;
