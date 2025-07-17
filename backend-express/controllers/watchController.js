@@ -10,6 +10,15 @@ const addToWatchLog = async (req, res) => {
     const film = await prisma.film.findUnique({ where: { id: filmId } });
     if (!film) return res.status(404).json({ message: 'Film tidak ditemukan' });
 
+    // Cek apakah sudah ada di log
+    const existingLog = await prisma.watchLog.findFirst({
+      where: { userId, filmId }
+    });
+
+    if (existingLog) {
+      return res.status(400).json({ message: 'Film sudah ada di watch log' });
+    }
+
     const log = await prisma.watchLog.create({
       data: {
         userId,
@@ -17,7 +26,7 @@ const addToWatchLog = async (req, res) => {
       }
     });
 
-    // Tambahkan 1 view ke film
+    // Tambahkan view count
     await prisma.film.update({
       where: { id: filmId },
       data: {
@@ -31,6 +40,7 @@ const addToWatchLog = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 // Ambil histori nonton user
 const getWatchHistory = async (req, res) => {
