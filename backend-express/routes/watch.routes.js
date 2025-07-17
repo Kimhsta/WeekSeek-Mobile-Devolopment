@@ -3,13 +3,16 @@ const router = express.Router();
 
 const {
   addToWatchLog,
-  getWatchHistory
+  getWatchHistory,
+  deleteWatchLog,
+  clearWatchHistory
 } = require('../controllers/watchController');
 
-const { verifyToken } = require('../middlewares/authMiddleware');
+const { verifyToken, isUser } = require('../middlewares/authMiddleware');
 
 // User menonton film = masuk ke watch log
-router.post('/:filmId', verifyToken, addToWatchLog);
-router.get('/', verifyToken, getWatchHistory);
-
-module.exports = router;
+router.post('/:filmId', verifyToken, isUser, addToWatchLog);
+router.get('/', verifyToken, isUser, getWatchHistory);
+router.delete('/:filmId', verifyToken, isUser, deleteWatchLog);
+router.delete('/', verifyToken, isUser, clearWatchHistory);
+module.exports = router;/*  */
