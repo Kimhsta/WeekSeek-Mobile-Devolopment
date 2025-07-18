@@ -15,7 +15,8 @@
     "axios": "^1.10.0",
     "expo": "~53.0.17",
     "expo-status-bar": "~2.2.3",
-    "nativewind": "^2.0.11",
+    "jwt-decode": "^4.0.0",
+    "nativewind": "^4.1.23",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@types/jwt-decode": "^2.2.1",
     "@types/react": "~19.0.10",
     "babel-preset-expo": "~13.0.0",
     "tailwindcss": "^3.4.17",

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getMe, login as loginAPI } from '../services/auth.service';
+import jwtDecode from 'jwt-decode';
+import { login as loginAPI } from '../services/auth.service';
 import { User } from '../types';
 
 interface AuthContextType {
@@ -16,10 +17,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const decodeToken = (token: string): User => {
+    const decoded: any = jwtDecode(token);
+    return {
+      id: decoded.id,
+      email: decoded.email,
+      username: decoded.username,
+      role: decoded.role,
+    };
+  };
+
   const login = async (email: string, password: string) => {
     const { token } = await loginAPI(email, password);
     await AsyncStorage.setItem('token', token);
-    const userData = await getMe(token);
+    const userData = decodeToken(token);
     setUser(userData);
   };
 
@@ -32,9 +43,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const token = await AsyncStorage.getItem('token');
     if (token) {
       try {
-        const userData = await getMe(token);
+        const userData = decodeToken(token);
         setUser(userData);
       } catch (e) {
+        console.error('Token invalid or expired');
         setUser(null);
       }
     }
