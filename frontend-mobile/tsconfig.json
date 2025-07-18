@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native", // ⬅️ ini yang WAJIB ada
+    "target": "ES2017",
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "types": [
+      "nativewind/types"
+    ] // ⬅️ ini juga bantu IntelliSense className
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "nativewind-env.d.ts"
+  ]
+}
