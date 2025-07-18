@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerValidator, loginValidator } = require("../utils/validators/userValidator");
+const { registerValidator, loginValidator } = require("../validators/userValidator");
 const validateRequest = require("../middlewares/validateRequest");
 const { register, login } = require("../controllers/authController");
 const { uploadProfile } = require("../middlewares/uploads"); 

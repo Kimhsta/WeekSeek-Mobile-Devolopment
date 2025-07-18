@@ -1,5 +1,5 @@
 const express = require('express');
-const { createFilmValidator, updateFilmValidator } = require('../utils/validators/filmValidator');
+const { createFilmValidator, updateFilmValidator } = require('../validators/filmValidator');
 const { createFilm, updateFilm, getAllFilms, getFilmById, deleteFilm } = require('../controllers/filmController');
 const { verifyToken, isAdmin } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');

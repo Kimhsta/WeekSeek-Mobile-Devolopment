@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const prisma = require("../../prisma/client"); // Pastikan ini sesuai path
+const prisma = require("../prisma/client"); // Pastikan ini sesuai path
 
 const registerValidator = [
   body("username").notEmpty().withMessage("Username is required"),
