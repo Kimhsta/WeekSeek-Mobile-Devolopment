@@ -18,9 +18,9 @@ console.log('API_URL:', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // },
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Tambahkan Authorization token dari AsyncStorage ke setiap request
