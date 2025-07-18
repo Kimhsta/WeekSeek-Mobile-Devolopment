@@ -10,7 +10,7 @@ const validate = (validators) => [
       if (req.file && req.file.destination && req.file.filename) {
         const filePath = path.join(req.file.destination, req.file.filename);
         if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath); // 🧹 Hapus file yang gagal validasi
+          fs.unlinkSync(filePath); 
         }
       }
 
