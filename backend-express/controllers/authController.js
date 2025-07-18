@@ -41,32 +41,34 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Email tidak ditemukan' });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Password salah' });
+    }
 
     const token = jwt.sign(
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: '1d' }
     );
 
-    res.json({
-      message: "Login successful",
+    const { password: _, ...userData } = user;
+
+    return res.json({
+      message: 'Login berhasil',
       token,
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        profile: user.profile,
-        role: user.role
-      }
+      user: userData,
     });
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error('[LOGIN ERROR]', error);
+    return res.status(500).json({
+      message: 'Terjadi kesalahan saat login',
+    });
   }
 };
 

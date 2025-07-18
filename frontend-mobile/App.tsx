@@ -1,23 +1,35 @@
+import "./global.css";
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import api from './src/services/api';
+import { NavigationContainer } from '@react-navigation/native';
+import { useAuthStore } from './src/store/authStore';
+import { ActivityIndicator, View } from 'react-native';
+
+// Navigators
+import AuthStack from './src/navigation/AuthStack';
+import AdminStack from './src/navigation/AdminStack';
+import UserStack from './src/navigation/UserStack';
 
 export default function App() {
-  const testApiConnection = async () => {
-    try {
-      const res = await api.get('/auth/profile'); // pastikan token tersimpan dulu
-      console.log('Connected:', res.data);
-      alert('Connected to backend!\nUser: ' + res.data.username);
-    } catch (err: any) {
-      console.log('Error:', err.response?.data || err.message);
-      alert('Failed to connect: ' + (err.response?.data?.message || err.message));
-    }
-  };
+  const { user, loading } = useAuthStore();
+
+  // Tampilkan loading spinner saat status login masih dicek
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
 
   return (
-    <View className="items-center justify-center align-bottom bg-white">
-      <Text className="text-lg mb-4">Cek Koneksi Backend</Text>
-      <Button title="Test Connection" onPress={testApiConnection} />
-    </View>
+    <NavigationContainer>
+      {!user ? (
+        <AuthStack />              // Login & Register screen
+      ) : user.role === 'admin' ? (
+        <AdminStack />            // Untuk admin
+      ) : (
+        <UserStack />             // Untuk user biasa
+      )}
+    </NavigationContainer>
   );
 }
