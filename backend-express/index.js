@@ -43,6 +43,6 @@ app.use('/api', routes);
 const port = process.env.PORT || 3000;
 
 // start server
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server started on port ${port}`);
 });
