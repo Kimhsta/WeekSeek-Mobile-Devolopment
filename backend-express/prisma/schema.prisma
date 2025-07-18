@@ -8,42 +8,29 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  profile   String
-  username  String
-  email     String     @unique
-  password  String
-  role      Role
-  films     Film[]     @relation("UploadedFilms")
-  watchLogs WatchLog[]
+  id       Int    @id @default(autoincrement())
+  profile  String
+  username String
+  email    String @unique
+  password String
+  role     Role
+  films    Film[] @relation("UploadedFilms")
 }
 
 model Film {
   id          Int      @id @default(autoincrement())
-  title       String
+  title       String   @unique
   description String?
   genre       String?
   releaseYear Int?
   duration    Int?
-  rating      Float    @default(0)
   views       Int      @default(0)
   posterUrl   String?
   trailerUrl  String?
   uploadedBy  Int
   uploadedAt  DateTime @default(now())
 
-  uploader  User       @relation("UploadedFilms", fields: [uploadedBy], references: [id])
-  watchLogs WatchLog[]
-}
-
-model WatchLog {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  filmId    Int
-  watchedAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-  film Film @relation(fields: [filmId], references: [id])
+  uploader User @relation("UploadedFilms", fields: [uploadedBy], references: [id])
 }
 
 enum Role {

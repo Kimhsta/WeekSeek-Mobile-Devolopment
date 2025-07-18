@@ -6,12 +6,8 @@ const prisma = new PrismaClient();
 
 const register = async (req, res) => {
   try {
-    const { profile, username, email, password, role } = req.body;
-
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
-    }
+    const { username, email, password, role } = req.body;
+    const profile = req.file ? req.file.filename : null;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -25,12 +21,20 @@ const register = async (req, res) => {
       },
     });
 
-    res.status(201).json({ message: "User registered", user: newUser });
+    res.status(201).json({
+      status: true,
+      message: "User registered",
+      user: newUser,
+    });
   } catch (err) {
     console.error("Register error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({
+      status: false,
+      message: "Terjadi kesalahan pada server",
+    });
   }
 };
+
 
 const login = async (req, res) => {
   try {

@@ -16,7 +16,6 @@ exports.createFilm = async (req, res) => {
           genre,
           releaseYear: parseInt(release_year),
           duration: parseInt(duration),
-          releaseYear: parseInt(release_year),
           posterUrl: req.file ? req.file.filename : null,
           uploadedBy: req.user.id,
         }
