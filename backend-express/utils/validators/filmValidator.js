@@ -19,6 +19,10 @@ exports.createFilmValidator = [
   body('duration')
   .notEmpty().withMessage('Durasi wajib diisi')
   .isInt({ min: 1 }).withMessage('Durasi wajib diisi dalam menit'),
+  body('trailerUrl')
+  .optional()
+  .matches(/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//)
+  .withMessage('Link trailer harus berupa tautan YouTube'),
 
 ];
 
