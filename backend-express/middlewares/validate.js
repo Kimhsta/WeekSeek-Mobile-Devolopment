@@ -7,23 +7,19 @@ const validate = (validators) => [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Jika ada file yang diunggah dan validasi gagal, hapus file
-      if (req.file) {
-        const filePath = path.join(__dirname, '../uploads', req.file.filename);
+      if (req.file && req.file.destination && req.file.filename) {
+        const filePath = path.join(req.file.destination, req.file.filename);
         if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
+          fs.unlinkSync(filePath); // 🧹 Hapus file yang gagal validasi
         }
       }
 
-      // Format error ke bentuk object yang lebih user-friendly
-      const formattedErrors = {};
-      errors.array().forEach((err) => {
-        formattedErrors[err.path] = err.msg;
-      });
+      const formatted = {};
+      errors.array().forEach((e) => (formatted[e.path] = e.msg));
 
       return res.status(400).json({
         message: 'Validasi gagal',
-        errors: formattedErrors,
+        errors: formatted,
       });
     }
     next();
