@@ -7,7 +7,7 @@ const path = require('path');
 
 exports.createFilm = async (req, res) => {
     try {
-      const { title, description, genre, release_year, duration } = req.body;
+      const { title, description, genre, release_year, duration,trailerUrl } = req.body;
   
       const film = await prisma.film.create({
         data: {
@@ -18,6 +18,7 @@ exports.createFilm = async (req, res) => {
           duration: parseInt(duration),
           posterUrl: req.file ? req.file.filename : null,
           uploadedBy: req.user.id,
+          trailerUrl: trailerUrl || null,
         }
       });
   
@@ -31,7 +32,7 @@ exports.createFilm = async (req, res) => {
   exports.updateFilm = async (req, res) => {
     try {
       const { id } = req.params;
-      const { title, description, genre, release_year, duration } = req.body;
+      const { title, description, genre, release_year, duration, trailerUrl } = req.body;
   
       // Ambil film lama dulu
       const existingFilm = await prisma.film.findUnique({
@@ -48,6 +49,7 @@ exports.createFilm = async (req, res) => {
         genre,
         releaseYear: parseInt(release_year),
         duration: parseInt(duration),
+        trailerUrl: trailerUrl || null,
       };
   
       // Jika ada file baru
