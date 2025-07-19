@@ -1,19 +1,30 @@
-import api from './api';
+import api, { API_URL } from './api';
 import { Film } from '../types/film';
 
 export const getAllFilms = async (): Promise<Film[]> => {
   const res = await api.get('/films');
-  return res.data;
+  // Tambahkan path lengkap ke poster
+  return res.data.map((film: Film) => ({
+    ...film,
+    poster: `${API_URL.replace('/api', '')}/uploads/posters/${film.poster}`,
+  }));
 };
 
 export const getFilmById = async (id: number): Promise<Film> => {
   const res = await api.get(`/films/${id}`);
-  return res.data;
+  const film = res.data;
+  return {
+    ...film,
+    poster: `${API_URL.replace('/api', '')}/uploads/posters/${film.poster}`,
+  };
 };
 
 export const searchFilms = async (query: string): Promise<Film[]> => {
   const res = await api.get(`/films/search?q=${encodeURIComponent(query)}`);
-  return res.data;
+  return res.data.map((film: Film) => ({
+    ...film,
+    poster: `${API_URL.replace('/api', '')}/uploads/posters/${film.poster}`,
+  }));
 };
 
 // ADMIN ONLY

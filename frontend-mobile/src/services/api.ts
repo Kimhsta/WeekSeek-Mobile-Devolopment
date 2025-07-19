@@ -31,5 +31,5 @@ api.interceptors.request.use(async (config) => {
   }
   return config;
 });
-
+export { API_URL };
 export default api;
