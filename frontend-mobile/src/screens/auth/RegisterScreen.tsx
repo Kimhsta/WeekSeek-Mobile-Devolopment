@@ -102,24 +102,37 @@ export default function RegisterScreen() {
     extraScrollHeight={100}
     keyboardShouldPersistTaps="handled"
     >
-      <Text className="text-3xl font-bold text-blue-700 text-center mb-6">
-        Daftar Akun
-      </Text>
+            <View className="items-center mb-6">
+              {/* Logo */}
+              <Image
+                source={require('../../assets/logo1.png')}
+                className="w-48 h-48"
+                resizeMode="contain"
+              />
+            </View>
+      
+            <Text className="text-2xl font-bold text-blue-700 text-end">
+              Register
+            </Text>
+            <Text className="text-sm text-gray-500 text-end mt-1 mb-4">
+              Silakan Register untuk melanjutkan
+            </Text>
+      
 
       {/* Username */}
-      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-50">
+      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1 mb-4 bg-gray-50">
         <User size={18} color="#6b7280" className="mr-2" />
         <TextInput
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
-          className="flex-1 text-sm text-gray-800"
+          className="flex-1 text-sm ms-2 text-gray-800"
           placeholderTextColor="#9ca3af"
         />
       </View>
 
       {/* Email */}
-      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-50">
+      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1 mb-4 bg-gray-50">
         <Mail size={18} color="#6b7280" className="mr-2" />
         <TextInput
           placeholder="Email"
@@ -127,13 +140,13 @@ export default function RegisterScreen() {
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-          className="flex-1 text-sm text-gray-800"
+          className="flex-1 text-sm ms-2 text-gray-800"
           placeholderTextColor="#9ca3af"
         />
       </View>
-
+    
       {/* Password */}
-      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-50">
+      <View className="flex-row items-center border border-gray-300 rounded-xl px-4 py-1 mb-4 bg-gray-50">
         <Key size={18} color="#6b7280" className="mr-2" />
         <TextInput
           placeholder="Password"
@@ -141,7 +154,7 @@ export default function RegisterScreen() {
           onChangeText={setPassword}
           secureTextEntry={secureText}
           autoCapitalize="none"
-          className="flex-1 text-sm text-gray-800 pr-2"
+          className="flex-1 text-sm text-gray-800 ms-2 pr-2"
           placeholderTextColor="#9ca3af"
         />
         <TouchableOpacity onPress={() => setSecureText(!secureText)}>
