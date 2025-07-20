@@ -25,20 +25,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
-      const res = await loginApi(email, password);
+      const { token, user } = await loginApi(email, password);
 
-      // Simpan ke AsyncStorage
-      await AsyncStorage.setItem('token', res.token);
-      await AsyncStorage.setItem('user', JSON.stringify(res.user));
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('user', JSON.stringify(user));
 
-      set({
-        user: res.user,
-        token: res.token,
-      });
+      set({ user, token });
     } catch (error: any) {
-      set({
-        error: error?.response?.data?.message || 'Login gagal',
-      });
+      const msg = error?.response?.data?.message || 'Login gagal';
+      set({ error: msg });
     } finally {
       set({ loading: false });
     }
@@ -46,12 +41,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await logoutApi(); // Jika backend butuh logout
+      await logoutApi();
     } catch (err) {
       console.warn('Logout API gagal (bisa diabaikan)');
     }
 
-    // Hapus dari AsyncStorage
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('user');
 

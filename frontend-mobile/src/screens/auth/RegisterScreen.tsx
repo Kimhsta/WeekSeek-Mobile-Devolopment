@@ -67,6 +67,7 @@ export default function RegisterScreen() {
       formData.append('password', password);
       formData.append('role', role);
 
+      console.log('📸 PROFILE YANG AKAN DIKIRIM:', profile);
       if (profile) {
         formData.append('profile', {
           uri: profile.uri,
@@ -78,8 +79,10 @@ export default function RegisterScreen() {
       await register(formData);
       setSuccessModal(true);
     } catch (err: any) {
-      alert(err.response?.data?.message || err.message);
-    } finally {
+      console.log('[REGISTER ERROR]', JSON.stringify(err, null, 2));
+      alert(err.response?.data?.message || err.message || 'Network error');
+    }
+     finally {
       setLoading(false);
     }
   };

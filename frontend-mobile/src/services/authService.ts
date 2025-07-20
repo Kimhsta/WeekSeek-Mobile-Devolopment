@@ -18,18 +18,28 @@ export interface UserProfile {
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   const res = await api.post('/auth/login', { email, password });
 
-  const token = res.data.token;
-  const user = res.data.user;
+  const { token, user } = res.data;
 
+  // Simpan token ke local storage
   await AsyncStorage.setItem('token', token);
 
   return { token, user };
 };
 
 export const register = (formData: FormData) =>
-  api.post('/auth/register', formData);
+  api.post('/auth/register', formData, {
+    transformRequest: (data) => data,
+    headers: {
+      'Content-Type': 'multipart/form-data', // ini juga bisa jika tetap error
+    },
+  });
 
 
 export const logout = async () => {
-  await AsyncStorage.removeItem('token');
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('user');
+  } catch (err) {
+    console.warn('Gagal menghapus token dari AsyncStorage:', err);
+  }
 };
