@@ -6,7 +6,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 // Navigators
 import AuthStack from './src/navigation/AuthStack';
-import AdminStack from './src/navigation/AdminStack';
+import AdminDrawer from "./src/navigation/AdminDrawer";
 import UserStack from './src/navigation/UserStack';
 
 export default function App() {
@@ -26,7 +26,7 @@ export default function App() {
       {!user ? (
         <AuthStack />              // Login & Register screen
       ) : user.role === 'admin' ? (
-        <AdminStack />            // Untuk admin
+        <AdminDrawer />            // Untuk admin
       ) : (
         <UserStack />             // Untuk user biasa
       )}

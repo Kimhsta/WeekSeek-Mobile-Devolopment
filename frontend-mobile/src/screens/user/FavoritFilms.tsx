@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Eye } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
 import { getAllFilms } from '../../services/filmServices';
 import { Film } from '../../types/film';
-import { Eye } from 'lucide-react-native';
-import { useNavigation } from '@react-navigation/native'; // ✅ Tambahkan ini
-
-const BASE_URL = 'http://192.168.234.253:3000/uploads/posters';
 
 export default function Favorit() {
   const [films, setFilms] = useState<Film[]>([]);
-  const navigation = useNavigation(); // ✅ Inisialisasi navigation
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         const res = await getAllFilms();
         setFilms(res);
       } catch (err) {
         console.error('Error fetching films:', err);
+      } finally {
+        setLoading(false);
       }
-    };
-
-    fetchData();
+    })();
   }, []);
 
   const renderItem = ({ item }: { item: Film }) => (
     <TouchableOpacity
       className="mr-4 w-40"
-      onPress={() => navigation.navigate('Detail' as never, { id: item.id } as never)} // ✅ Navigasi ke detail
+      onPress={() => navigation.navigate('Detail' as never, { id: item.id } as never)}
     >
       <Image
-        source={{ uri: `${BASE_URL}/${item.posterUrl}` }}
+        source={{ uri: item.posterUrl }}
         className="w-full h-60 rounded-xl mb-2"
         resizeMode="cover"
       />
@@ -41,13 +40,21 @@ export default function Favorit() {
         <Text className="text-xs text-gray-500">
           {item.genre} · {item.duration} menit
         </Text>
-        <View className="flex-row items-center ml-2">
-          <Text className="text-xs text-gray-400 me-1">{item.views ?? 0}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-xs text-gray-400 mr-1">{item.views ?? 0}</Text>
           <Eye size={14} color="#9CA3AF" />
         </View>
       </View>
     </TouchableOpacity>
   );
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#2563EB" />
+      </View>
+    );
+  }
 
   return (
     <View className="mt-6">
@@ -58,6 +65,9 @@ export default function Favorit() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         showsHorizontalScrollIndicator={false}
+        ListEmptyComponent={
+          <Text className="text-gray-500">Belum ada film trending</Text>
+        }
       />
     </View>
   );

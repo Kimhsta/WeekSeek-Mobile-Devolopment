@@ -12,8 +12,6 @@ import { useNavigation } from '@react-navigation/native';
 import { getAllFilms } from '../../services/filmServices';
 import { Film } from '../../types/film';
 
-const BASE_URL = 'http://192.168.234.253:3000/uploads/posters';
-
 export default function AllFilms() {
   const [films, setFilms] = useState<Film[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +39,7 @@ export default function AllFilms() {
       }
     >
       <Image
-        source={{ uri: `${BASE_URL}/${item.posterUrl}` }}
+        source={{ uri: item.posterUrl }}        // langsung pakai item.posterUrl
         className="w-28 h-40 rounded-l-2xl"
         resizeMode="cover"
       />
@@ -51,17 +49,16 @@ export default function AllFilms() {
           {item.description}
         </Text>
         <View className="flex-row items-center mt-4">
-            <Eye size={16} color="#6b7280" />
-            <Text className="text-xs text-gray-500 ml-1">{item.views} views</Text>
+          <Eye size={16} color="#6b7280" />
+          <Text className="text-xs text-gray-500 ml-1">{item.views} views</Text>
         </View>
-        
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View className="flex-1 pt-4">
-      <Text className="text-xl font-bold text-gray-800 mb-4">All Films </Text>
+      <Text className="text-xl font-bold text-gray-800 mb-4">All Films</Text>
 
       {loading ? (
         <View className="flex-1 justify-center items-center">
@@ -72,7 +69,7 @@ export default function AllFilms() {
           data={films}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingBottom: 100}}
+          contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <Text className="text-center text-gray-500 mt-10">

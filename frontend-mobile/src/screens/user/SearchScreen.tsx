@@ -6,35 +6,36 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import { Search, Eye } from 'lucide-react-native';
 import { getAllFilms } from '../../services/filmServices';
 import { Film } from '../../types/film';
-import { useNavigation } from '@react-navigation/native'; // ✅ penting
-
-const BASE_URL = 'http://192.168.234.253:3000/uploads/posters';
-const CATEGORIES = ['All', 'Action', 'Drama', 'Comedy', 'Horror'];
+import { useNavigation } from '@react-navigation/native';
 
 export default function SearchScreen() {
   const [films, setFilms] = useState<Film[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const navigation = useNavigation(); // ✅ harus di dalam komponen
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         const res = await getAllFilms();
         setFilms(res);
       } catch (err) {
         console.error('Error fetching films:', err);
+      } finally {
+        setLoading(false);
       }
-    };
-
-    fetchData();
+    })();
   }, []);
+
+  const CATEGORIES = ['All', 'Action', 'Drama', 'Comedy', 'Horror'];
 
   const filteredFilms = films.filter((film) => {
     const matchCategory =
@@ -53,7 +54,7 @@ export default function SearchScreen() {
       }
     >
       <Image
-        source={{ uri: `${BASE_URL}/${item.posterUrl}` }}
+        source={{ uri: item.posterUrl }} // langsung pakai posterUrl lengkap
         className="w-full h-60 rounded-md mb-3"
         resizeMode="cover"
       />
@@ -69,6 +70,14 @@ export default function SearchScreen() {
     </TouchableOpacity>
   );
 
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size="large" color="#2563EB" />
+      </View>
+    );
+  }
+
   return (
     <View className="flex-col bg-gray-100 px-4 pt-14">
       {/* Search Bar */}
@@ -83,31 +92,32 @@ export default function SearchScreen() {
       </View>
 
       {/* Kategori */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="mb-5"
-      >
-        <View className="flex-row flex-wrap">
-          {CATEGORIES.map((category) => (
-            <TouchableOpacity
-              key={category}
-              onPress={() => setSelectedCategory(category)}
-              className={`px-4 py-2 mr-2 mb-2 rounded-full ${
-                selectedCategory === category ? 'bg-blue-600' : 'bg-gray-200'
-              }`}
-            >
-              <Text
-                className={`text-sm ${
-                  selectedCategory === category ? 'text-white' : 'text-gray-800'
+      <View className="mb-5">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          <View className="flex-row flex-wrap">
+            {CATEGORIES.map((category) => (
+              <TouchableOpacity
+                key={category}
+                onPress={() => setSelectedCategory(category)}
+                className={`px-4 py-2 mr-2 mb-2 rounded-full ${
+                  selectedCategory === category ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
-                {category}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
+                <Text
+                  className={`text-sm ${
+                    selectedCategory === category ? 'text-white' : 'text-gray-800'
+                  }`}
+                >
+                  {category}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
 
       {/* List Film */}
       <FlatList

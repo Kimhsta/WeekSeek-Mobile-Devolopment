@@ -1,4 +1,5 @@
 export interface Film {
+    releaseYear: ReactNode;
     trailerUrl(trailerUrl: any): unknown;
     duration: ReactNode;
     genre: ReactNode;

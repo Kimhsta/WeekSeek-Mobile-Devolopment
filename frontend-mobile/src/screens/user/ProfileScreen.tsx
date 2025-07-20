@@ -3,8 +3,7 @@ import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
 import { useAuthStore } from '../../store/authStore';
 import { LogOut, Mail, User, BadgeCheck } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
-
-const BASE_URL = 'http://192.168.234.253:3000/uploads/profile'; // Ganti sesuai IP lokalmu
+import { API_URL } from '../../services/api';  // ← impor API_URL
 
 export default function ProfileScreen() {
   const { user, logout } = useAuthStore();
@@ -32,16 +31,16 @@ export default function ProfileScreen() {
     );
   }
 
+  const profileUri = user.profile
+    ? `${API_URL.replace('/api', '')}/uploads/profile/${user.profile}`
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}`;
+
   return (
     <View className="flex-1 bg-white px-6 pt-20">
       {/* Profile Picture */}
       <View className="items-center mb-6">
         <Image
-          source={{
-            uri: user.profile
-              ? `${BASE_URL}/${user.profile}`
-              : `https://ui-avatars.com/api/?name=${user.username}`,
-          }}
+          source={{ uri: profileUri }}
           className="w-28 h-28 rounded-full mb-4 border-4 border-blue-600"
         />
         <Text className="text-xl font-bold text-gray-900">{user.username}</Text>
