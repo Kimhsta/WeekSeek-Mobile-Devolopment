@@ -20,7 +20,6 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
   const { token, user } = res.data;
 
-  // Simpan token ke local storage
   await AsyncStorage.setItem('token', token);
 
   return { token, user };
@@ -30,7 +29,7 @@ export const register = (formData: FormData) =>
   api.post('/auth/register', formData, {
     transformRequest: (data) => data,
     headers: {
-      'Content-Type': 'multipart/form-data', // ini juga bisa jika tetap error
+      'Content-Type': 'multipart/form-data', 
     },
   });
 

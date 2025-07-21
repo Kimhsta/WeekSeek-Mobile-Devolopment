@@ -1,7 +1,6 @@
-// src/navigations/UserStack.tsx
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DetailScreen from '../screens/user/DetailScreen';
-import UserTabs from './UserTabs'; // ← pakai tab navigator
+import UserTabs from './UserTabs'; 
 
 const Stack = createNativeStackNavigator();
 

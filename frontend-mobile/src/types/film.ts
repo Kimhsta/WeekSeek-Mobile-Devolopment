@@ -1,4 +1,3 @@
-// types/film.ts
 export interface Film {
   id: number;
   title: string;

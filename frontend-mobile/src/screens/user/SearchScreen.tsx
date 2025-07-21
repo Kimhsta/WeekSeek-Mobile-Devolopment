@@ -35,7 +35,7 @@ export default function SearchScreen() {
     })();
   }, []);
 
-  const CATEGORIES = ['All', 'Action', 'Drama', 'Comedy', 'Horror'];
+  const CATEGORIES = ['All', 'Action', 'Drama', 'Comedy', 'Horror','Romance'];
 
   const filteredFilms = films.filter((film) => {
     const matchCategory =

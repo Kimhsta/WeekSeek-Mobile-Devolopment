@@ -23,7 +23,7 @@ function CustomDrawerContent({ navigation }: any) {
   const drawerItems = [
     { label: 'Dashboard', icon: 'dashboard', route: 'Dashboard' },
     { label: 'Films', icon: 'movie', route: 'FilmList' },
-    { label: 'Akun', icon: 'person-outline', route: 'Account' },
+    // { label: 'Akun', icon: 'person-outline', route: 'Account' },
   ];
 
   const confirmLogout = async () => {

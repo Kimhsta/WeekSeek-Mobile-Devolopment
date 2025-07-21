@@ -1,17 +1,5 @@
-// screens/admin/AddFilmScreen.tsx
-
 import React, { useState, useEffect } from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator, Alert,} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { addFilm } from '../../services/filmServices';

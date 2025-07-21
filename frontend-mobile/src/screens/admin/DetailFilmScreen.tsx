@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Linking,
-} from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, ScrollView, Linking,} from 'react-native';
 import { Film } from '../../types/film';
 
 interface Props {

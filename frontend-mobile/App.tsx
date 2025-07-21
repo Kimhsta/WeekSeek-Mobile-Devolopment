@@ -12,7 +12,6 @@ import UserStack from './src/navigation/UserStack';
 export default function App() {
   const { user, loading } = useAuthStore();
 
-  // Tampilkan loading spinner saat status login masih dicek
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
@@ -24,11 +23,11 @@ export default function App() {
   return (
     <NavigationContainer>
       {!user ? (
-        <AuthStack />              // Login & Register screen
+        <AuthStack />         
       ) : user.role === 'admin' ? (
-        <AdminDrawer />            // Untuk admin
+        <AdminDrawer />            
       ) : (
-        <UserStack />             // Untuk user biasa
+        <UserStack />         
       )}
     </NavigationContainer>
   );

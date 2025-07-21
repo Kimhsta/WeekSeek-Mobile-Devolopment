@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
+import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import { Eye } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
