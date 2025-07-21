@@ -1,13 +1,12 @@
+// types/film.ts
 export interface Film {
-    releaseYear: ReactNode;
-    trailerUrl(trailerUrl: any): unknown;
-    duration: ReactNode;
-    genre: ReactNode;
-    posterUrl: any;
-    id: number;
-    title: string;
-    description: string;
-    poster: string;
-    views: number;
-  }
-  
+  id: number;
+  title: string;
+  description?: string;
+  genre?: string;
+  releaseYear?: number;
+  duration?: number;
+  views: number;
+  posterUrl: string;
+  trailerUrl?: string;
+}

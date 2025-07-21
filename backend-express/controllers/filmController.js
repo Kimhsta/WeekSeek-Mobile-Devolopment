@@ -130,7 +130,7 @@ exports.createFilm = async (req, res) => {
       if (film.posterUrl) {
         const filePath = path.join(__dirname, '../uploads', film.posterUrl);
         if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath); // atau gunakan await fs.promises.unlink(filePath);
+          fs.unlinkSync(filePath); 
         }
       }
   
